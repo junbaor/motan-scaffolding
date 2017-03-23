@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:motan="http://api.weibo.com/schema/motan"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+   http://api.weibo.com/schema/motan http://api.weibo.com/schema/motan.xsd">
+
+    <motan:protocol id="protocol" name="motan"
+                    maxClientConnection="10"
+                    minClientConnection="2"
+                    requestTimeout="10"
+                    retries="0"/>
+
+    <motan:registry regProtocol="zookeeper" name="my_zookeeper" address="10.4.81.47:2181"/>
+
+    <motan:basicReferer id="basicReferer"
+                        group="motan-service" module="junbaor-motan-rpc"
+                        protocol="protocol" registry="my_zookeeper" retries="0"/>
+
+    <motan:referer id="remoteService" interface="com.junbaor.motan.service.UsersService" basicReferer="basicReferer"/>
+
+</beans>
